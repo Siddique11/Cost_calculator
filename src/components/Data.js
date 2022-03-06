@@ -229,14 +229,14 @@ export default function FormPropsTextFields() {
       </div>
       <div>
         <Typography variant="h5" gutterBottom component="div">
-          Costs: {costTotal && costTotal}
+          Total Cost: {costTotal && costTotal}
         </Typography>
         <Typography variant="h5" gutterBottom component="div">
-          Sells: {sellTotal && sellTotal}
+          Total Sell: {sellTotal && sellTotal}
         </Typography>
 
         <Typography variant="h5" gutterBottom component="div">
-          Sells with 20% VAT: {sellTotal && (sellTotal * 1.2).toFixed(2)}
+          Sell with 20% VAT: {sellTotal && (sellTotal * 1.2).toFixed(2)}
         </Typography>
         <Button variant="contained" onClick={btnReset}>
           Reset
