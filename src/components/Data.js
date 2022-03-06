@@ -228,19 +228,27 @@ export default function FormPropsTextFields() {
         />
       </div>
       <div>
-        <Typography variant="h5" gutterBottom component="div">
-          Total Cost: {costTotal && costTotal}
-        </Typography>
-        <Typography variant="h5" gutterBottom component="div">
-          Cost with 20% VAT: {costTotal && (costTotal * 1.2).toFixed(2)}
-        </Typography>
-        <Typography variant="h5" gutterBottom component="div">
-          Total Sell: {sellTotal && sellTotal}
-        </Typography>
+        <Box display="flex" sx={{ justifyContent: "center", p: "1rem" }}>
+          <Box sx={{ border: 1, p: "1.5rem" }}>
+            <Typography variant="h5" gutterBottom component="div">
+              Total Cost: {costTotal && costTotal}
+            </Typography>
+            <Typography variant="h5" gutterBottom component="div">
+              Cost with 20% VAT: {costTotal && (costTotal * 1.2).toFixed(2)}
+            </Typography>
+          </Box>
+          <div style={{ margin: "0 1rem" }}></div>
+          <Box sx={{ border: 1, p: "1.5rem" }}>
+            <Typography variant="h5" gutterBottom component="div">
+              Total Sell: {sellTotal && sellTotal}
+            </Typography>
 
-        <Typography variant="h5" gutterBottom component="div">
-          Sell with 20% VAT: {sellTotal && (sellTotal * 1.2).toFixed(2)}
-        </Typography>
+            <Typography variant="h5" gutterBottom component="div">
+              Sell with 20% VAT: {sellTotal && (sellTotal * 1.2).toFixed(2)}
+            </Typography>
+          </Box>
+        </Box>
+
         <Button variant="contained" onClick={btnReset}>
           Reset
         </Button>
