@@ -232,6 +232,9 @@ export default function FormPropsTextFields() {
           Total Cost: {costTotal && costTotal}
         </Typography>
         <Typography variant="h5" gutterBottom component="div">
+          Cost with 20% VAT: {costTotal && (costTotal * 1.2).toFixed(2)}
+        </Typography>
+        <Typography variant="h5" gutterBottom component="div">
           Total Sell: {sellTotal && sellTotal}
         </Typography>
 
