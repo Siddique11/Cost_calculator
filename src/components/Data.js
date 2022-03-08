@@ -3,71 +3,94 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import _ from "lodash";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 export default function FormPropsTextFields() {
-  const initialValue = {
-    cpu: "",
-    motherboard: "",
-    ram: "",
-    gpu: "",
-    ssd: "",
-  };
-
-  const [costValues, setCostValues] = React.useState(initialValue);
+  const [priceValues, setPriceValues] = React.useState([
+    { cost: "", sell: "" },
+  ]);
   const [costTotal, setCostTotal] = React.useState(0);
-  const [sellValues, setSellValues] = React.useState(initialValue);
   const [sellTotal, setSellTotal] = React.useState(0);
 
   const btnReset = () => {
-    setCostValues(initialValue);
-    setSellValues(initialValue);
+    setPriceValues([{ cost: "", sell: "" }]);
     setCostTotal(0);
     setSellTotal(0);
   };
 
-  const costHandleInputChange = (e) => {
-    const { value, name } = e.target;
+  const handleInputChange = (e, i) => {
+    const { name, value } = e.target;
 
-    setCostValues({
-      ...costValues,
-      [name]: value,
+    const list = [...priceValues];
+
+    list[i][name] = value;
+    setPriceValues(list);
+
+    // console.log(
+    //   priceValues.map((priceValue) => {
+    //     return priceValue.cost;
+    //   })
+    // );
+
+    const cost = priceValues.map((priceValue) => {
+      return priceValue.cost;
     });
 
-    let sum = sumOfTotal(costValues);
-    setCostTotal(sum);
-  };
+    setCostTotal(sumOfTotal(cost));
 
-  const sellHandleInputChange = (e) => {
-    const { value, name } = e.target;
-    const parsedValue = value === "" ? "" : parseFloat(value);
-
-    setSellValues({
-      ...sellValues,
-      [name]: parsedValue,
+    const sell = priceValues.map((priceValue) => {
+      return priceValue.sell;
     });
 
-    console.log(sellValues);
+    setSellTotal(sumOfTotal(sell));
 
-    let sum = sumOfTotal(sellValues);
-    setSellTotal(sum);
-    // console.log(sellTotal);
+    // const cost = _.sumBy(priceValues, (price) => {
+    //   return price.cost === "" ? 0 : parseFloat(price.cost);
+    // });
+
+    // console.log(cost);
   };
+
+  // handle click event of the Remove button
+  const handleRemoveClick = (index) => {
+    const list = [...priceValues];
+    list.splice(index, 1);
+    setPriceValues(list);
+  };
+
+  const handleAddClick = () => {
+    setPriceValues([...priceValues, { cost: "", sell: "" }]);
+  };
+
+  // const sellHandleInputChange = (e, index) => {
+  //   const { value, name } = e.target;
+  //   const list = [...priceValues];
+  //   // const parsedValue = value === "" ? "" : parseFloat(value);
+
+  //   list[index][name] = value;
+  //   setPriceValues(list);
+
+  //   console.log(priceValues);
+
+  //   // let sum = sumOfTotal(sellValues);
+  //   // setSellTotal(sum);
+  //   // console.log(sellTotal);
+  // };
 
   const sumOfTotal = (obj) => {
-    let a = Object.values(obj);
-    console.log(a);
-    let sum = _(a)
+    // let a = Object.values(obj);
+    // console.log(obj);
+    let sum = _(obj)
       .map((el) => {
         return el === "" ? 0 : parseFloat(el);
       })
-      .sum(a);
+      .sum(obj);
 
     return sum;
   };
 
-  // const arr = Object.values(sellValues);
-  // console.log(lodash);
   return (
     <Box
       component="form"
@@ -78,155 +101,48 @@ export default function FormPropsTextFields() {
       autoComplete="off"
     >
       <div>
-        <Typography variant="h3" gutterBottom component="div">
+        <Typography variant="h5" gutterBottom component="div">
           Sell And Cost Calculator
         </Typography>
       </div>
-      <div>
-        <TextField label="CPU" type="Text" />
-        <TextField label="Model" type="Text" />
-        <TextField label="HOC Code" type="Text" />
-        <TextField
-          name="cpu"
-          label="Cost Inc"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={costValues.cpu}
-          onChange={costHandleInputChange}
-          onKeyUp={costHandleInputChange}
-        />
-        <TextField
-          name="cpu"
-          label="Sell"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={sellValues.cpu}
-          onChange={sellHandleInputChange}
-          onKeyUp={sellHandleInputChange}
-        />
-      </div>
-      <div>
-        <TextField label="Motherboard" type="Text" />
-        <TextField label="Model" type="Text" />
-        <TextField label="HOC Code" type="Text" />
-        <TextField
-          name="motherboard"
-          label="Cost Inc"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={costValues.motherboard}
-          onChange={costHandleInputChange}
-          onKeyUp={costHandleInputChange}
-        />
-        <TextField
-          name="motherboard"
-          label="Sell"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={sellValues.motherboard}
-          onChange={sellHandleInputChange}
-          onKeyUp={sellHandleInputChange}
-        />
-      </div>
-      <div>
-        <TextField label="Ram" type="Text" />
-        <TextField label="Model" type="Text" />
-        <TextField label="HOC Code" type="Text" />
-        <TextField
-          name="ram"
-          label="Cost Inc"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={costValues.ram}
-          onChange={costHandleInputChange}
-          onKeyUp={costHandleInputChange}
-        />
-        <TextField
-          name="ram"
-          label="Sell"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={sellValues.ram}
-          onChange={sellHandleInputChange}
-          onKeyUp={sellHandleInputChange}
-        />
-      </div>
-      <div>
-        <TextField label="GPU" type="Text" />
-        <TextField label="Model" type="Text" />
-        <TextField label="HOC Code" type="Text" />
-        <TextField
-          name="gpu"
-          label="Cost Inc"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={costValues.gpu}
-          onChange={costHandleInputChange}
-          onKeyUp={costHandleInputChange}
-        />
-        <TextField
-          name="gpu"
-          label="Sell"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={sellValues.gpu}
-          onChange={sellHandleInputChange}
-          onKeyUp={sellHandleInputChange}
-        />
-      </div>
-      <div>
-        <TextField label="SSD" type="Text" />
-        <TextField label="Model" type="Text" />
-        <TextField label="HOC Code" type="Text" />
-        <TextField
-          name="ssd"
-          label="Cost Inc"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={costValues.ssd}
-          onChange={costHandleInputChange}
-          onKeyUp={costHandleInputChange}
-        />
-        <TextField
-          name="ssd"
-          label="Sell"
-          type="number"
-          inputProps={{
-            maxLength: 6,
-            step: "1",
-          }}
-          value={sellValues.ssd}
-          onChange={sellHandleInputChange}
-          onKeyUp={sellHandleInputChange}
-        />
-      </div>
+
+      {priceValues.map((x, i) => {
+        return (
+          <Box sx={{ justifyContent: "center" }} key={i}>
+            <TextField label="Component Name" type="Text" />
+            <TextField label="HOC Code" type="Text" />
+            <TextField
+              name="cost"
+              label="Cost Inc"
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+              value={x.cost}
+              onChange={(e) => handleInputChange(e, i)}
+              onKeyUp={(e) => handleInputChange(e, i)}
+            />
+            <TextField
+              name="sell"
+              label="Sell"
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+              value={x.sell}
+              onChange={(e) => handleInputChange(e, i)}
+              onKeyUp={(e) => handleInputChange(e, i)}
+            />
+            <IconButton
+              disabled={priceValues.length !== 1 ? false : true}
+              onClick={() => handleRemoveClick(i)}
+            >
+              <RemoveIcon fontSize="small" sx={{ margin: "1rem" }} />
+            </IconButton>
+            <IconButton
+              // disabled={priceValues.length - 1 === i ? false : true}
+              onClick={() => handleAddClick(i)}
+            >
+              <AddIcon fontSize="small" sx={{ margin: "1rem" }} />
+            </IconButton>
+          </Box>
+        );
+      })}
+
       <div>
         <Box display="flex" sx={{ justifyContent: "center", p: "1rem" }}>
           <Box sx={{ border: 1, p: "1.5rem" }}>
@@ -256,3 +172,120 @@ export default function FormPropsTextFields() {
     </Box>
   );
 }
+
+// <div>
+//         <TextField label="Motherboard" type="Text" />
+//         <TextField label="Model" type="Text" />
+//         <TextField label="HOC Code" type="Text" />
+//         <TextField
+//           name="motherboard"
+//           label="Cost Inc"
+//           type="number"
+//           inputProps={{
+//             maxLength: 6,
+//             step: "1",
+//           }}
+//           value={costValues.motherboard}
+//           onChange={costHandleInputChange}
+//           onKeyUp={costHandleInputChange}
+//         />
+//         <TextField
+//           name="motherboard"
+//           label="Sell"
+//           type="number"
+//           inputProps={{
+//             maxLength: 6,
+//             step: "1",
+//           }}
+//           value={sellValues.motherboard}
+//           onChange={sellHandleInputChange}
+//           onKeyUp={sellHandleInputChange}
+//         />
+//       </div>
+//       <div>
+//         <TextField label="Ram" type="Text" />
+//         <TextField label="Model" type="Text" />
+//         <TextField label="HOC Code" type="Text" />
+//         <TextField
+//           name="ram"
+//           label="Cost Inc"
+//           type="number"
+//           inputProps={{
+//             maxLength: 6,
+//             step: "1",
+//           }}
+//           value={costValues.ram}
+//           onChange={costHandleInputChange}
+//           onKeyUp={costHandleInputChange}
+//         />
+//         <TextField
+//           name="ram"
+//           label="Sell"
+//           type="number"
+//           inputProps={{
+//             maxLength: 6,
+//             step: "1",
+//           }}
+//           value={sellValues.ram}
+//           onChange={sellHandleInputChange}
+//           onKeyUp={sellHandleInputChange}
+//         />
+//       </div>
+//       <div>
+//         <TextField label="GPU" type="Text" />
+//         <TextField label="Model" type="Text" />
+//         <TextField label="HOC Code" type="Text" />
+//         <TextField
+//           name="gpu"
+//           label="Cost Inc"
+//           type="number"
+//           inputProps={{
+//             maxLength: 6,
+//             step: "1",
+//           }}
+//           value={costValues.gpu}
+//           onChange={costHandleInputChange}
+//           onKeyUp={costHandleInputChange}
+//         />
+//         <TextField
+//           name="gpu"
+//           label="Sell"
+//           type="number"
+//           inputProps={{
+//             maxLength: 6,
+//             step: "1",
+//           }}
+//           value={sellValues.gpu}
+//           onChange={sellHandleInputChange}
+//           onKeyUp={sellHandleInputChange}
+//         />
+//       </div>
+//       <div>
+//         <TextField label="SSD" type="Text" />
+//         <TextField label="Model" type="Text" />
+//         <TextField label="HOC Code" type="Text" />
+//         <TextField
+//           name="ssd"
+//           label="Cost Inc"
+//           type="number"
+//           inputProps={{
+//             maxLength: 6,
+//             step: "1",
+//           }}
+//           value={costValues.ssd}
+//           onChange={costHandleInputChange}
+//           onKeyUp={costHandleInputChange}
+//         />
+//         <TextField
+//           name="ssd"
+//           label="Sell"
+//           type="number"
+//           inputProps={{
+//             maxLength: 6,
+//             step: "1",
+//           }}
+//           value={sellValues.ssd}
+//           onChange={sellHandleInputChange}
+//           onKeyUp={sellHandleInputChange}
+//         />
+//       </div>
