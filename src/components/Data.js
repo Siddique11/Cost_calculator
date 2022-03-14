@@ -110,34 +110,87 @@ export default function FormPropsTextFields() {
         return (
           <Box sx={{ justifyContent: "center" }} key={i}>
             <TextField label="Component Name" type="Text" />
-            <TextField label="HOC Code" type="Text" />
+            <TextField
+              label="HOC Code"
+              type="Text"
+              sx={{
+                maxWidth: "6rem",
+              }}
+            />
             <TextField
               name="cost"
-              label="Cost Inc"
+              label="Cost"
+              sx={{
+                maxWidth: "6rem",
+              }}
               inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
               value={x.cost}
               onChange={(e) => handleInputChange(e, i)}
               onKeyUp={(e) => handleInputChange(e, i)}
             />
             <TextField
+              name="cost"
+              label="Cost Inc"
+              InputProps={{
+                readOnly: true,
+              }}
+              cursor="not-allowed"
+              value={x.cost === "" ? 0 : (x.cost * 1.2).toFixed(2)}
+              sx={{
+                maxWidth: "6rem",
+                "& .MuiInputBase-input": {
+                  cursor: "not-allowed",
+                },
+                "& .MuiOutlinedInput-root:hover": {
+                  "& > fieldset": {
+                    borderColor: "#c4c4c4",
+                  },
+                },
+              }}
+            />
+
+            <TextField
               name="sell"
               label="Sell"
+              sx={{
+                maxWidth: "6rem",
+              }}
               inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
               value={x.sell}
               onChange={(e) => handleInputChange(e, i)}
               onKeyUp={(e) => handleInputChange(e, i)}
             />
+            <TextField
+              name="sell"
+              sx={{
+                maxWidth: "6rem",
+                color: "black",
+                "& .MuiInputBase-input": {
+                  cursor: "not-allowed",
+                },
+                "& .MuiOutlinedInput-root:hover": {
+                  "& > fieldset": {
+                    borderColor: "#c4c4c4",
+                  },
+                },
+              }}
+              label="Sell Inc"
+              InputProps={{
+                readOnly: true,
+              }}
+              value={x.sell === "" ? 0 : (x.sell * 1.2).toFixed(2)}
+            />
             <IconButton
               disabled={priceValues.length !== 1 ? false : true}
               onClick={() => handleRemoveClick(i)}
             >
-              <RemoveIcon fontSize="small" sx={{ margin: "1rem" }} />
+              <RemoveIcon fontSize="1rem" sx={{ margin: "1rem" }} />
             </IconButton>
             <IconButton
               // disabled={priceValues.length - 1 === i ? false : true}
               onClick={() => handleAddClick(i)}
             >
-              <AddIcon fontSize="small" sx={{ margin: "1rem" }} />
+              <AddIcon fontSize="0.5rem" sx={{ margin: "1rem" }} />
             </IconButton>
           </Box>
         );
@@ -145,21 +198,41 @@ export default function FormPropsTextFields() {
 
       <div>
         <Box display="flex" sx={{ justifyContent: "center", p: "1rem" }}>
-          <Box sx={{ border: 1, p: "1.5rem" }}>
-            <Typography variant="h5" gutterBottom component="div">
+          <Box sx={{ border: 1, p: "1.5rem", borderColor: "gray" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              component="div"
+              style={{ color: "gray" }}
+            >
               Total Cost: {costTotal && costTotal}
             </Typography>
-            <Typography variant="h5" gutterBottom component="div">
+            <Typography
+              variant="h6"
+              gutterBottom
+              component="div"
+              style={{ color: "gray" }}
+            >
               Cost with 20% VAT: {costTotal && (costTotal * 1.2).toFixed(2)}
             </Typography>
           </Box>
           <div style={{ margin: "0 1rem" }}></div>
-          <Box sx={{ border: 1, p: "1.5rem" }}>
-            <Typography variant="h5" gutterBottom component="div">
+          <Box sx={{ border: 1, p: "1.5rem", borderColor: "gray" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              component="div"
+              style={{ color: "gray" }}
+            >
               Total Sell: {sellTotal && sellTotal}
             </Typography>
 
-            <Typography variant="h5" gutterBottom component="div">
+            <Typography
+              variant="h6"
+              gutterBottom
+              component="div"
+              style={{ color: "gray" }}
+            >
               Sell with 20% VAT: {sellTotal && (sellTotal * 1.2).toFixed(2)}
             </Typography>
           </Box>
